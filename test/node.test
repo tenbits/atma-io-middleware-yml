@@ -1,0 +1,18 @@
+import * as Midd from '../index'
+import * as io from 'atma-io'
+
+/** We use custom test extension to prevent some other middleware listening for yml extension */
+io.File.registerExtensions({
+	"yml-test": [
+		[ Midd, 'read']
+	], 	
+});
+
+UTest({
+	'should read yml to json' () {
+		deepEq_(io.File.read('/test/fixtures/foo.yml-test'), {
+			foo: 1,
+			arr: ['a', 'b']
+		});
+	}
+})
